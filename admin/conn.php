@@ -1,6 +1,6 @@
 <?php
 
-$conn= new mysqli("localhost", "royalcod_royaltech", "royaltech2011", "royalcod_royaltech");
+$conn= new mysqli("localhost", "root", "royaltech", "royaltech");
 
 
 if ($conn->connect_error) {

@@ -1,318 +1,182 @@
-<?php
-include"conn.php";
-  session_start();
-if(!isset($_SESSION["id"])) 
-{
-  header("Location:index.php");
-session_unset();
-session_destroy();
-header ("location:index.php");
+<?php include "includes/head.php";
+if (in_array(1, $user) || in_array(2, $user) || in_array(13, $user)) {
 
-} 
-//include "conn.php";
+?>
 
-$query = "";
-if(isset($_SESSION["id"])) {
-  $sql = "SELECT  * FROM admin  WHERE  password='".$_SESSION["id"]."' ;";
-//  $row = mysql_fetch_array(mysql_query($sql));
- if ($result = $conn->query($sql)) {
-    $row = $result->fetch_array(MYSQLI_ASSOC);}}
-  ?> 
-  <?php
-include('conn.php');
-
-        $sql=mysqli_query($conn, "SELECT * FROM biodata WHERE status='0' order by id asc")or die(mysqli_error($conn));
-        $id_count=mysqli_num_rows($sql);
-        if($id_count!=0)
-        {
-        //echo $id_count;
-        }
-        else {
-            //echo "0" ;
-        }
-      ?>
-      <?php
-include('conn.php');
-
-        $sql=mysqli_query($conn, "SELECT * FROM biodata WHERE status='1' order by id asc")or die(mysqli_error($conn));
-        $id_count1=mysqli_num_rows($sql);
-        if($id_count1!=0)
-        {
-        //echo $id_count;
-        }
-        else {
-            //echo "0" ;
-        }
-      ?>
-      <?php $total= $id_count + $id_count1; ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Admin - Dashboard</title>
-
-  <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
-  <!-- Page level plugin CSS-->
-  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-
-  <!-- Custom styles for this template-->
-  <link href="css/sb-admin.css" rel="stylesheet">
-
-</head>
-
-<body id="page-top">
-
-  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-
-    <a class="navbar-brand mr-1" href="dashboard.php">ADMIN SECTION</a>
-
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-      <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-      <div class="input-group">
-        
+  <body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+      <?php include "includes/navbar.php" ?>
+      <?php include "includes/sidebar.php" ?>
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Dashboard</h1>
+              </div><!-- /.col -->
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="index.php" class="btn btn-primary"><i class="fas fa-home"></i> Home</a></li>
+                </ol>
+              </div><!-- /.col -->
+            </div><!-- /.row -->
+          </div><!-- /.container-fluid -->
         </div>
-      </div>
-    </form>
+        <!-- /.content-header -->
 
-    <!-- Navbar -->
-    <ul class="navbar-nav ml-auto ml-md-0">
-      
-      
-      <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-        </div>
-      </li>
-    </ul>
+        <!-- Main content -->
 
-  </nav>
-
-  <div id="wrapper">
-
-    <!-- Sidebar -->
-    <ul class="sidebar navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="dashboard.php">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Pages</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <h6 class="dropdown-header"></h6>
-          <a class="dropdown-item" href="dashboard.php">Home</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-          
-          
-        </div>
-      </li>
-    </ul>
-
-    <div id="content-wrapper">
-
-      <div class="container-fluid">
-
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="" style="text-decoration: none;">Approved request</a>
-          </li>
-          <li class="breadcrumb-item active">Overview</li>
-          <li class="breadcrumb-item"><?php echo date("Y-m-d")?></li>
-        </ol>
-          <div class="row">
-          <div class="col-xl-6 col-sm-6 col-xs-12 mb-3">
-            <div class="card text-white bg-primary o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-home"></i>
-                </div>
-                <div class="mr-5 text-center"><?php echo "$id_count"?></div>
-              </div>
-              <a class="card-footer text-white text-center clearfix small z-1" href="#">
-                <span class="">Pending List</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-xl-6 col-sm-6 col-xs-12 mb-3">
-            <div class="card text-white bg-success o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-home"></i>
-                </div>
-                <div class="mr-5 text-center"><?php echo "$id_count1"?></div>
-              </div>
-              <a class="card-footer text-white text-center clearfix small z-1" href="approved.php">
-                <span class="">Approved List</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-          <div class="row">
-          <div class="col-xl-12 col-sm-6 col-xs-12 mb-3">
-            <div class="card text-white bg-info o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-home"></i>
-                </div>
-                <div class="mr-5 text-center text-center"><?php echo "$total"?></div>
-              </div>
-              <a class="card-footer text-white text-center clearfix small z-1" href="#">
-                <span class="">Total request in the hall</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-        <!-- DataTables Example -->
-       <div class="card mb-3">
+        <div class="card">
           <div class="card-header">
-            <i class="fas fa-table"></i>
-            List of approved request</div>
+            <h3 class="card-title">All Transcript Request</h3>
+          </div>
+          <div class="row">
+            <div class="col-md-6 text-right">
+            </div>
+            <div class="col-md-6 text-right" style="padding-right: 20px;">
+              <button class="btn btn-success" type="submit" style="margin-top: 2px; margin-right: 10px;" onClick="setUpdateAction();"><i class="fa fa-check"></i> Approve</button>
+              <button class="btn btn-danger" type="submit" style="margin-top: 2px; margin-right: 10px;" onClick="setDeleteAction();"><i class="fa fa-trash"></i> Delete</button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
           <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <form method="POST" name="frmUser" action="">
+
+              <table id="example2" class="table table-bordered table-striped">
                 <thead>
                   <tr>
+                    <th class="text-center"><input type="checkbox" id="select_all"></th>
                     <th>ID NO.</th>
                     <th>NAME</th>
                     <th>DEPARTMENT</th>
-                    <th>DATE </th>
+                    <th>LEVEL </th>
+                    <th>BLOCK / (ROOM) </th>
+                    <th>PASSPORT</th>
                     <th style="text-align: center;">ACTION</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
+                    <th class="text-center"><input type="checkbox" id="select_all"></th>
                     <th>ID NO.</th>
                     <th>NAME</th>
                     <th>DEPARTMENT</th>
-                    <th>DATE </th>
+                    <th>LEVEL </th>
+                    <th>BLOCK / (ROOM)</th>
+                    <th>PASSPORT</th>
                     <th style="text-align: center;">ACTION</th>
                   </tr>
                 </tfoot>
                 <tbody>
                   <?php include "conn.php";
 
-                $sql="SELECT * FROM biodata WHERE status = '0'";
-                if($result=$conn->query($sql)){
-                  while ($row=$result->fetch_array(MYSQLI_ASSOC)) {
-                    # code...
+                  $sql = "SELECT * FROM biodata WHERE status = '0'";
+                  if ($result = $conn->query($sql)) {
+                    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                      # code...
 
 
-          ?>
-            <tr>
-              
-              <td><?php echo $row['id']; ?></td>
-              <td><?php echo $row['surname']; echo' '; echo $row['othername']; ?></td>
-              <td><?php echo $row['department']; ?></td>
-              
-              <td><?php echo $row['date_apply']; ?></td>
-              <td style="text-align: center;"><a href="view_unapproved.php?edit=<?php echo $row['id'];?>" class="btn btn-info" style="color: white;text-decoration: none;" data-toggle="tooltip" data-placement="top" title="view details"><i class="fa fa-edit"></i></a>  <a href="approve_biodata.php?edit=<?php echo $row['id'];?>" class="btn btn-success" style="color: white;text-decoration: none;" data-toggle="tooltip" data-placement="top" title="Allocate room"><i class="fa fa-plus"></i></a> 
-       
-          
-            
-            </tr>
-             <?php }}?>
- 
+                  ?>
+                      <tr>
+                        <td class="text-center"><input type="checkbox" name="id[]" value="<?php echo $row['id'] ?>" id="">
+                          <input type="hidden" name="room[]" value="<?php echo $row['room'] ?>" id="">
+                        </td>
+                        <td><?php echo $row['form_no']; ?></td>
+                        <td><?php echo $row['surname'];
+                            echo ' ';
+                            echo $row['othername']; ?></td>
+                        <td><?php echo $row['department']; ?></td>
+                        <td><?php echo $row['degree']; ?></td>
+
+
+                        <td><?php echo $row['room_category'];
+                            echo ' ';
+                            echo '(';
+                            echo ' ';
+                            echo getRoom($row['room']);
+                            echo ')'; ?></td>
+                        <td class="text-center"><a href="../uploads/<?php echo $row['form_no'] ?>" target="_blank"><img src="../uploads/<?php echo $row['form_no'] ?>" width="50" class="img-rounded" alt=""></a></td>
+
+                        <td style="text-align: center;"><a href="show.php?id=<?php echo base64_encode($row['id']); ?>" class="btn btn-primary" style="color: white;text-decoration: none;" data-toggle="tooltip" data-placement="top" title="View request"><i class="fa fa-edit"></i></a>
+
+                          <form id="delete-form" action="reject.php?id=<?php echo base64_encode($row['id']) ?>&r=<?php echo base64_encode($row['room']) ?>" method="post" style="visibility: hidden; display:inline">
+
+                          </form>
+                          <a href="" title="Reject request" onclick="
+                       if(confirm('Are you sure you want to reject this request'))
+                       {
+                         event.preventDefault();document.getElementById('delete-form').submit();
+                        }else
+                        {
+                          event.preventDefault();
+                        }" class="btn btn-danger"><i class="fas fa-trash"></i> </a>
+
+
+
+                      </tr>
+                  <?php }
+                  } ?>
+
                 </tbody>
               </table>
-            </div>
+            </form>
           </div>
+          <!-- /.card-body -->
         </div>
 
       </div>
-      <!-- /.container-fluid -->
 
-      <!-- Sticky Footer -->
-       <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-          <a href="http://www.royalcode.com.ng" target="blank">Copyright © Royaltech <?php echo date("Y")?></span>          </div>
-          </div>
-        </div>
-      </footer>
 
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+      </aside>
+      <!-- /.control-sidebar -->
     </div>
-    <!-- /.content-wrapper -->
+    <!-- ./wrapper -->
+    <?php include 'includes/footer.php' ?>
 
-  </div>
-  <!-- /#wrapper -->
+    <script type="text/javascript">
+      function setDeleteAction() {
+        if (confirm("Are you sure want to reject these request (s)?")) {
+          document.frmUser.action = "rejectMore.php";
+          document.frmUser.submit();
+        }
+      }
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
+      function setUpdateAction() {
+        if (confirm("Are you sure want to approve these request (s)?")) {
+          document.frmUser.action = "approveMore.php";
+          document.frmUser.submit();
+        }
+      }
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select <span class="alert alert-warning">"Logout"</span>to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-default" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-danger" href="logout.php">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
+      function setEditAction() {
+        if (confirm("Are you sure want to unlock these rooms?")) {
+          document.frmUser.action = "";
+          document.frmUser.submit();
+        }
+      }
+    </script>
+  </body>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </html>
+<?php } else { ?>
+  <?php
+  echo "<script>alert('You are not allow to view this page');</script>";
+  echo "<script>window.open('index.php', '_self');</script>";
+  ?>
 
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Page level plugin JavaScript-->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-  <script src="vendor/datatables/jquery.dataTables.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin.min.js"></script>
-
-  <!-- Demo scripts for this page-->
-  <script src="js/demo/datatables-demo.js"></script>
-  <script src="js/demo/chart-area-demo.js"></script>
-
-</body>
-
-</html>
+<?php } ?>
+<?php
+function getRoom($id)
+{
+  include "conn.php";
+  $sql = "SELECT * FROM room WHERE id ='$id'";
+  $result = $conn->query($sql);
+  $row = $result->fetch_array(MYSQLI_ASSOC);
+  return $row['room'];
+}
+?>
